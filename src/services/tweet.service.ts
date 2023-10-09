@@ -74,6 +74,32 @@ class TweetService {
       data: updatedTweet,
     };
   }
+
+  public async delete(id: string): Promise<ResponseDto> {
+    const tweetExist = await repository.tweet.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!tweetExist) {
+      return {
+        code: 404,
+        message: 'Tweet not found',
+      };
+    }
+
+    await repository.tweet.delete({
+      where: {
+        id,
+      },
+    });
+
+    return {
+      code: 200,
+      message: 'Tweet deleted successfully',
+    };
+  }
 }
 
 export default new TweetService();

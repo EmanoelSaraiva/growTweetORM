@@ -8,6 +8,7 @@ export const tweetRoutes = () => {
   router.get('/', tweetController.index);
   router.post('/', tweetController.create);
   router.put('/:id', tweetController.updated);
+  router.delete('/:id', tweetController.delete);
 
   return router;
 };
