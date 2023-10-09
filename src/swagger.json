@@ -1,0 +1,78 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API GrowTweet",
+    "description": "Essa API tem como objetivo o cadastro de usuario e tweets como desafio de fim de módulo de banco de dados II",
+    "termsOfService": "http://localhost:3333/terms",
+    "contact": {
+      "email": "emanoelsaraivas@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333/",
+      "description": "API de test"
+    }
+  ],
+  "paths": {
+    "/user": {
+      "post": {
+        "summary": "Cadastro de usuário",
+        "description": "Rota responsável por cadastrar novos usuários",
+        "tags": ["User"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "Jhon Lenon",
+                    "email": "jhonlenon@beatles.com",
+                    "username": "Lenon",
+                    "password": "123456"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Incorrect data"
+          },
+          "200": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "username": { "type": "string" },
+          "password": { "type": "string" }
+        }
+      }
+    }
+  }
+}
