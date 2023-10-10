@@ -8,6 +8,7 @@ class UserService {
     const data = await repository.user.findMany({
       include: {
         tweet: true,
+        like: true,
       },
     });
 

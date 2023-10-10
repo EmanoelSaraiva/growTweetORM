@@ -5,7 +5,11 @@ import { Tweet } from '../models/tweet.model';
 
 class TweetService {
   public async findAll(): Promise<ResponseDto> {
-    const data = await repository.tweet.findMany();
+    const data = await repository.tweet.findMany({
+      include: {
+        like: true,
+      },
+    });
 
     return {
       code: 200,

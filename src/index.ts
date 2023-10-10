@@ -7,6 +7,7 @@ const app = express();
 
 import swaggerDocs from './swagger.json';
 import { tweetRoutes } from './routes/tweet.routes';
+import { likeRoutes } from './routes/like.routes';
 
 app.use(express.json());
 app.use(cors());
@@ -15,6 +16,7 @@ app.use('/api-docs', swaaggerUi.serve, swaaggerUi.setup(swaggerDocs));
 
 app.use('/user', userRoutes());
 app.use('/tweet', tweetRoutes());
+app.use('/like', likeRoutes());
 
 app.listen(3333, () => {
   console.log('API rodando na porta 3333');
