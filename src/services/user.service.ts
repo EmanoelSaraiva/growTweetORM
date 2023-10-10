@@ -9,6 +9,7 @@ class UserService {
       include: {
         tweet: true,
         like: true,
+        retweet: true,
       },
     });
 

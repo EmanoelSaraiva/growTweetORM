@@ -60,6 +60,12 @@ class TweetService {
       },
     });
 
+    await repository.retweet.deleteMany({
+      where: {
+        tweetId: id,
+      },
+    });
+
     await repository.tweet.delete({
       where: {
         id,

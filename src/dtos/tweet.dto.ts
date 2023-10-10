@@ -1,5 +1,3 @@
-import { types } from '../types/types';
-
 export interface TweetDto {
   types: 'tweet' | 're-tweet';
   content: string;

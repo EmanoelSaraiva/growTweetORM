@@ -1,4 +1,5 @@
 export interface RetweetDto {
   userId: string;
-  tweetId: String;
+  tweetId: string;
+  content?: string;
 }

@@ -60,3 +60,33 @@ export async function tweetMiddlewareBody(
     });
   }
 }
+
+export async function retweetValidatedUser(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const { userId, tweetId } = req.body;
+
+    const tweet = await repository.tweet.findUnique({
+      where: {
+        id: tweetId,
+      },
+      select: {
+        userId: true,
+      },
+    });
+
+    if (tweet?.userId === userId) {
+      return res.status(404).send({
+        ok: false,
+        message: 'Can`t retweet your own tweet',
+      });
+    }
+
+    next();
+  } catch (error: any) {
+    res.status(500).send({ ok: false, message: error.toString() });
+  }
+}
