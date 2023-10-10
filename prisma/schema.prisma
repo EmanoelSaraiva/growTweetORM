@@ -16,8 +16,9 @@ model user {
   token    String? @unique
   tweet    tweet[]
 
-  dtCriet DateTime @default(now())
+  dtCriet DateTime  @default(now())
   like    like?
+  retweet retweet[]
 }
 
 model tweet {
@@ -28,9 +29,10 @@ model tweet {
   userId String @db.Uuid
   user   user   @relation(fields: [userId], references: [id])
 
-  dtCriet DateTime @default(now())
-  dtAtl   DateTime @updatedAt
+  dtCriet DateTime  @default(now())
+  dtAtl   DateTime  @updatedAt
   like    like[]
+  retweet retweet[]
 }
 
 model like {
@@ -42,4 +44,13 @@ model like {
   tweet tweet @relation(fields: [tweetId], references: [id])
 
   dtCriet DateTime @default(now())
+}
+
+model retweet {
+  id      String @id @default(uuid()) @db.Uuid
+  userId  String @db.Uuid
+  tweetId String @db.Uuid
+
+  user  user  @relation(fields: [userId], references: [id])
+  tweet tweet @relation(fields: [tweetId], references: [id])
 }

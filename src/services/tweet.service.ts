@@ -19,25 +19,12 @@ class TweetService {
   }
 
   public async create(data: TweetDto): Promise<ResponseDto> {
-    const verifUser = await repository.user.findUnique({
-      where: {
-        id: data.userId,
-      },
-    });
-
-    if (!verifUser) {
-      return {
-        code: 400,
-        message: 'User not exist',
-      };
-    }
-
     const newTweet = new Tweet(data.content, data.types, data.userId);
 
     const createTweet = await repository.tweet.create({
       data: {
         content: newTweet.content,
-        type: newTweet.types,
+        type: (newTweet.types = 'tweet'),
         userId: newTweet.userId,
       },
     });
@@ -50,19 +37,6 @@ class TweetService {
   }
 
   public async update(data: UpdateTweetDto): Promise<ResponseDto> {
-    const verifTweetExist = await repository.tweet.findUnique({
-      where: {
-        id: data.id,
-      },
-    });
-
-    if (!verifTweetExist) {
-      return {
-        code: 400,
-        message: 'Incorrect data',
-      };
-    }
-
     const updatedTweet = await repository.tweet.update({
       where: {
         id: data.id,
@@ -80,18 +54,11 @@ class TweetService {
   }
 
   public async delete(id: string): Promise<ResponseDto> {
-    const tweetExist = await repository.tweet.findUnique({
+    await repository.like.deleteMany({
       where: {
-        id,
+        tweetId: id,
       },
     });
-
-    if (!tweetExist) {
-      return {
-        code: 404,
-        message: 'Tweet not found',
-      };
-    }
 
     await repository.tweet.delete({
       where: {
