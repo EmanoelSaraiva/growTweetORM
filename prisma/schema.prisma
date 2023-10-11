@@ -19,6 +19,9 @@ model user {
   dtCriet DateTime  @default(now())
   like    like?
   retweet retweet[]
+
+  follower  follow[] @relation("follower")
+  following follow[] @relation("following")
 }
 
 model tweet {
@@ -54,4 +57,17 @@ model retweet {
 
   user  user  @relation(fields: [userId], references: [id])
   tweet tweet @relation(fields: [tweetId], references: [id])
+
+  dtCriet DateTime @default(now())
+}
+
+model follow {
+  id          String @id @default(uuid()) @db.Uuid
+  followerId  String @unique @db.Uuid
+  followingId String @db.Uuid
+
+  follower  user @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following user @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  dtCriet DateTime @default(now())
 }
