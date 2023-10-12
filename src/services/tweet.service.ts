@@ -5,7 +5,11 @@ import { Tweet } from '../models/tweet.model';
 
 class TweetService {
   public async findAll(): Promise<ResponseDto> {
-    const data = await repository.tweet.findMany();
+    const data = await repository.tweet.findMany({
+      include: {
+        like: true,
+      },
+    });
 
     return {
       code: 200,
@@ -15,25 +19,12 @@ class TweetService {
   }
 
   public async create(data: TweetDto): Promise<ResponseDto> {
-    const verifUser = await repository.user.findUnique({
-      where: {
-        id: data.userId,
-      },
-    });
-
-    if (!verifUser) {
-      return {
-        code: 400,
-        message: 'User not exist',
-      };
-    }
-
     const newTweet = new Tweet(data.content, data.types, data.userId);
 
     const createTweet = await repository.tweet.create({
       data: {
         content: newTweet.content,
-        type: newTweet.types,
+        type: (newTweet.types = 'tweet'),
         userId: newTweet.userId,
       },
     });
@@ -46,19 +37,6 @@ class TweetService {
   }
 
   public async update(data: UpdateTweetDto): Promise<ResponseDto> {
-    const verifTweetExist = await repository.tweet.findUnique({
-      where: {
-        id: data.id,
-      },
-    });
-
-    if (!verifTweetExist) {
-      return {
-        code: 400,
-        message: 'Incorrect data',
-      };
-    }
-
     const updatedTweet = await repository.tweet.update({
       where: {
         id: data.id,
@@ -72,6 +50,31 @@ class TweetService {
       code: 202,
       message: 'Tweet updated successfully',
       data: updatedTweet,
+    };
+  }
+
+  public async delete(id: string): Promise<ResponseDto> {
+    await repository.like.deleteMany({
+      where: {
+        tweetId: id,
+      },
+    });
+
+    await repository.retweet.deleteMany({
+      where: {
+        tweetId: id,
+      },
+    });
+
+    await repository.tweet.delete({
+      where: {
+        id,
+      },
+    });
+
+    return {
+      code: 200,
+      message: 'Tweet deleted successfully',
     };
   }
 }

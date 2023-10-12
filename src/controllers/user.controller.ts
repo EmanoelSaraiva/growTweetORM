@@ -12,13 +12,6 @@ export class UserController {
     try {
       const { name, email, username, password } = req.body;
 
-      if (!name || !email || !username || !password) {
-        return res.status(400).send({
-          ok: false,
-          message: 'Incorrect data',
-        });
-      }
-
       const result = await userService.create({
         name,
         email,
@@ -29,6 +22,43 @@ export class UserController {
       return res.status(201).send({
         data: result,
       });
+    } catch (error: any) {
+      res.status(500).send({
+        ok: false,
+        message: error.toString(),
+      });
+    }
+  }
+
+  public async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const result = await userService.delete(id);
+
+      return res.status(result.code).send({ result });
+    } catch (error: any) {
+      res.status(500).send({
+        ok: false,
+        message: error.toString(),
+      });
+    }
+  }
+
+  public async update(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { name, email, username, password } = req.body;
+
+      const result = await userService.update({
+        id,
+        name,
+        email,
+        username,
+        password,
+      });
+
+      return res.status(result.code).send(result);
     } catch (error: any) {
       res.status(500).send({
         ok: false,

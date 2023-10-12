@@ -60,6 +60,50 @@
           }
         }
       }
+    },
+    "/tweet": {
+      "post": {
+        "summary": "Cadastro de usuário",
+        "description": "Rota responsável por cadastrar novos usuários",
+        "tags": ["Tweet"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tweet"
+              },
+              "examples": {
+                "tweet": {
+                  "value": {
+                    "content": "Hello world!",
+                    "type": "tweet",
+                    "userId": "2856dc5d-3824-4a47-b77c-0199085ce77b"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Incorrect data"
+          },
+          "200": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Tweet"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -71,6 +115,14 @@
           "email": { "type": "string" },
           "username": { "type": "string" },
           "password": { "type": "string" }
+        }
+      },
+      "Tweet": {
+        "type": "object",
+        "properties": {
+          "content": { "type": "string" },
+          "type": { "type": "string" },
+          "userId": { "type": "string" }
         }
       }
     }

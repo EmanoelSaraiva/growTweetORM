@@ -16,7 +16,12 @@ model user {
   token    String? @unique
   tweet    tweet[]
 
-  dtCriet DateTime @default(now())
+  dtCriet DateTime  @default(now())
+  like    like?
+  retweet retweet[]
+
+  follower  follow[] @relation("follower")
+  following follow[] @relation("following")
 }
 
 model tweet {
@@ -25,12 +30,44 @@ model tweet {
   type    String
 
   userId String @db.Uuid
-  user   user   @relation(fields: [userId], references: [id])
+  user   user   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  dtCriet DateTime @default(now())
-  dtAtl   DateTime @updatedAt
+  dtCriet DateTime  @default(now())
+  dtAtl   DateTime  @updatedAt
+  like    like[]
+  retweet retweet[]
 }
 
 model like {
-  id String @id @default(uuid()) @db.Uuid
+  id      String @id @default(uuid()) @db.Uuid
+  userId  String @unique @db.Uuid
+  tweetId String @db.Uuid
+
+  user  user  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tweet tweet @relation(fields: [tweetId], references: [id])
+
+  dtCriet DateTime @default(now())
+}
+
+model retweet {
+  id      String  @id @default(uuid()) @db.Uuid
+  content String?
+  userId  String  @db.Uuid
+  tweetId String  @db.Uuid
+
+  user  user  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tweet tweet @relation(fields: [tweetId], references: [id])
+
+  dtCriet DateTime @default(now())
+}
+
+model follow {
+  id          String @id @default(uuid()) @db.Uuid
+  followerId  String @unique @db.Uuid
+  followingId String @db.Uuid
+
+  follower  user @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following user @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  dtCriet DateTime @default(now())
 }
