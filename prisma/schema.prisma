@@ -30,7 +30,7 @@ model tweet {
   type    String
 
   userId String @db.Uuid
-  user   user   @relation(fields: [userId], references: [id])
+  user   user   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   dtCriet DateTime  @default(now())
   dtAtl   DateTime  @updatedAt
@@ -43,7 +43,7 @@ model like {
   userId  String @unique @db.Uuid
   tweetId String @db.Uuid
 
-  user  user  @relation(fields: [userId], references: [id])
+  user  user  @relation(fields: [userId], references: [id], onDelete: Cascade)
   tweet tweet @relation(fields: [tweetId], references: [id])
 
   dtCriet DateTime @default(now())
@@ -55,7 +55,7 @@ model retweet {
   userId  String  @db.Uuid
   tweetId String  @db.Uuid
 
-  user  user  @relation(fields: [userId], references: [id])
+  user  user  @relation(fields: [userId], references: [id], onDelete: Cascade)
   tweet tweet @relation(fields: [tweetId], references: [id])
 
   dtCriet DateTime @default(now())

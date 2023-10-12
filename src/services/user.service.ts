@@ -1,6 +1,6 @@
 import { repository } from '../database/prisma.database';
 import { ResponseDto } from '../dtos/response.dto';
-import { CreateUserDto } from '../dtos/user.dto';
+import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { User } from '../models/user.model';
 
 class UserService {
@@ -21,20 +21,6 @@ class UserService {
   }
 
   public async create(data: CreateUserDto): Promise<ResponseDto> {
-    const verifUsernameEmail = await repository.user.findUnique({
-      where: {
-        email: data.email,
-        username: data.username,
-      },
-    });
-
-    if (!verifUsernameEmail) {
-      return {
-        code: 400,
-        message: 'Incorrect data ',
-      };
-    }
-
     const newUser = new User(
       data.name,
       data.email,
@@ -44,10 +30,10 @@ class UserService {
 
     const createdUser = await repository.user.create({
       data: {
-        name: newUser.name,
-        email: newUser.email,
-        username: newUser.username,
-        password: newUser.password,
+        name: newUser.getName(),
+        email: newUser.getEmail(),
+        username: newUser.getUsername(),
+        password: newUser.getPassword(),
       },
     });
 
@@ -55,6 +41,39 @@ class UserService {
       code: 201,
       message: 'User created successfully',
       data: createdUser,
+    };
+  }
+
+  public async delete(id: string): Promise<ResponseDto> {
+    await repository.user.delete({
+      where: {
+        id,
+      },
+    });
+
+    return {
+      code: 200,
+      message: 'User deleted successfully',
+    };
+  }
+
+  public async update(data: UpdateUserDto): Promise<ResponseDto> {
+    const updatedUser = await repository.user.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        name: data.name,
+        email: data.email,
+        username: data.username,
+        password: data.password,
+      },
+    });
+
+    return {
+      code: 202,
+      message: 'User updated successfully',
+      data: updatedUser,
     };
   }
 }

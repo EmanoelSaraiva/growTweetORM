@@ -42,8 +42,8 @@ class LikeService {
 
     const createdLike = await repository.like.create({
       data: {
-        userId: like.userId,
-        tweetId: like.tweetId,
+        userId: like.getUserId(),
+        tweetId: like.getTweetId(),
       },
     });
 

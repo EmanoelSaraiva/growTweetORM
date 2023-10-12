@@ -4,17 +4,33 @@ export class User {
   private id: string;
 
   constructor(
-    public name: string,
-    public email: string,
-    public username: string,
-    public password: string,
+    private name: string,
+    private email: string,
+    private username: string,
+    private password: string,
   ) {
     this.id = uuid();
     this.password = password;
   }
 
+  public getName() {
+    return this.name;
+  }
+
+  public getEmail() {
+    return this.email;
+  }
+
+  public getUsername() {
+    return this.username;
+  }
+
   public getPassword() {
     return this.password;
+  }
+
+  public getId() {
+    return this.id;
   }
 
   public getSave() {

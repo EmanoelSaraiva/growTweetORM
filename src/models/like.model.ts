@@ -3,8 +3,16 @@ import { v4 as uuid } from 'uuid';
 export class Like {
   private id: string;
 
-  constructor(public userId: string, public tweetId: string) {
+  constructor(private userId: string, private tweetId: string) {
     this.id = uuid();
+  }
+
+  public getUserId() {
+    return this.userId;
+  }
+
+  public getTweetId() {
+    return this.tweetId;
   }
 
   public getSave() {
