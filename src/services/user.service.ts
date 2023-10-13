@@ -67,6 +67,7 @@ class UserService {
         email: data.email,
         username: data.username,
         password: data.password,
+        token: data.token,
       },
     });
 
@@ -75,6 +76,27 @@ class UserService {
       message: 'User updated successfully',
       data: updatedUser,
     };
+  }
+
+  public async getByUsernameAndPassword(username: string, password: string) {
+    const user = await repository.user.findUnique({
+      where: {
+        username: username,
+        password: password,
+      },
+    });
+
+    return user;
+  }
+
+  public async getByToken(token: string) {
+    const tokenUser = await repository.user.findUnique({
+      where: {
+        token: token,
+      },
+    });
+
+    return tokenUser;
   }
 }
 
