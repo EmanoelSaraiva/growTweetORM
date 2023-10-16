@@ -35,4 +35,38 @@ export class RetweetController {
       });
     }
   }
+
+  public async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const result = await retweetService.delete(id);
+
+      return res.status(result.code).send({ result });
+    } catch (error: any) {
+      res.status(500).send({
+        ok: false,
+        message: error.toString(),
+      });
+    }
+  }
+
+  public async update(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { content } = req.body;
+
+      const result = await retweetService.update({
+        id,
+        content,
+      });
+
+      return res.status(result.code).send(result);
+    } catch (error: any) {
+      res.status(500).send({
+        ok: false,
+        message: error.toString(),
+      });
+    }
+  }
 }

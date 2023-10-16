@@ -53,6 +53,19 @@ class LikeService {
       data: createdLike,
     };
   }
+
+  public async delete(id: string): Promise<ResponseDto> {
+    await repository.like.delete({
+      where: {
+        id,
+      },
+    });
+
+    return {
+      code: 200,
+      message: 'Successfully dropped',
+    };
+  }
 }
 
 export default new LikeService();

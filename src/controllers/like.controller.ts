@@ -34,4 +34,19 @@ export class LikeController {
       });
     }
   }
+
+  public async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const result = await likeService.delete(id);
+
+      return res.status(result.code).send({ result });
+    } catch (error: any) {
+      res.status(500).send({
+        ok: false,
+        message: error.toString(),
+      });
+    }
+  }
 }

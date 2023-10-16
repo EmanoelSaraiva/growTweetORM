@@ -1,6 +1,6 @@
 import { repository } from '../database/prisma.database';
 import { ResponseDto } from '../dtos/response.dto';
-import { RetweetDto } from '../dtos/retweet.dto';
+import { RetweetDto, UpdateRetweetDto } from '../dtos/retweet.dto';
 import { Retweet } from '../models/retweet.model';
 
 class RetweetService {
@@ -48,6 +48,36 @@ class RetweetService {
       code: 201,
       message: 'Retweet created succcessfully',
       data: createRetweet,
+    };
+  }
+
+  public async delete(id: string): Promise<ResponseDto> {
+    await repository.retweet.delete({
+      where: {
+        id,
+      },
+    });
+
+    return {
+      code: 200,
+      message: 'Re-tweet deleted successfully',
+    };
+  }
+
+  public async update(data: UpdateRetweetDto): Promise<ResponseDto> {
+    const updatedRetweet = await repository.retweet.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        content: data.content,
+      },
+    });
+
+    return {
+      code: 202,
+      message: 'Retweet updated successfully',
+      data: updatedRetweet,
     };
   }
 }
