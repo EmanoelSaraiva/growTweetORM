@@ -3,3 +3,8 @@ export interface RetweetDto {
   tweetId: string;
   content?: string;
 }
+
+export interface UpdateRetweetDto {
+  id: string;
+  content?: string;
+}

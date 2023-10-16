@@ -164,3 +164,39 @@ export async function authMiddlewarePutDelet(
     });
   }
 }
+
+export async function authMiddlewareRetweetPutDelet(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const token = req.headers.authorization;
+  const { id } = req.params;
+  try {
+    const retweetUser = await repository.retweet.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    const tokenUser = await repository.user.findUnique({
+      where: {
+        token: token,
+      },
+    });
+
+    if (retweetUser?.userId != tokenUser?.id) {
+      return res.status(403).send({
+        ok: false,
+        message: 'Not authorized to access this tweet',
+      });
+    }
+
+    next();
+  } catch (error: any) {
+    res.status(500).send({
+      ok: false,
+      message: error.toString(),
+    });
+  }
+}

@@ -19,7 +19,12 @@ export const userRoutes = () => {
     userMiddlewareParams,
     userController.update,
   );
-  router.delete('/:id', userMiddlewareParams, userController.delete);
+  router.delete(
+    '/:id',
+    authMiddlewareUserPutDelete,
+    userMiddlewareParams,
+    userController.delete,
+  );
 
   return router;
 };
