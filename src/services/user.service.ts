@@ -78,15 +78,26 @@ class UserService {
     };
   }
 
-  public async getByUsernameAndPassword(username: string, password: string) {
-    const user = await repository.user.findUnique({
+  public async getByUsernameAndPassword(login: string, password: string) {
+    const username = await repository.user.findUnique({
       where: {
-        username: username,
+        username: login,
         password: password,
       },
     });
 
-    return user;
+    if (username) {
+      return username;
+    } else {
+      const email = await repository.user.findUnique({
+        where: {
+          email: login,
+          password: password,
+        },
+      });
+
+      return email;
+    }
   }
 
   public async getByToken(token: string) {
