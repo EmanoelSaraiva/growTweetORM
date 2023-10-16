@@ -110,9 +110,9 @@ export async function userPasswordMiddleware(
   res: Response,
   next: NextFunction,
 ) {
-  const { username, password } = req.body;
+  const { login, password } = req.body;
 
-  if (!username || !password) {
+  if (!login || !password) {
     return res.status(400).send({
       ok: false,
       message: 'Username or password were not provided',
@@ -120,4 +120,41 @@ export async function userPasswordMiddleware(
   }
 
   next();
+}
+
+export async function authMiddlewareUserPutDelete(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const token = req.headers.authorization;
+  const { id } = req.params;
+
+  try {
+    const user = await repository.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    const tokenUser = await repository.user.findUnique({
+      where: {
+        token: token,
+      },
+    });
+
+    if (tokenUser?.id != user?.id) {
+      return res.status(403).send({
+        ok: false,
+        message: 'Not authorized to access this tweet',
+      });
+    }
+
+    next();
+  } catch (error: any) {
+    res.status(500).send({
+      ok: false,
+      message: error.toString(),
+    });
+  }
 }

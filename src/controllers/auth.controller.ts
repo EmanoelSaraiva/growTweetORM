@@ -5,9 +5,9 @@ import { ResponseDto } from '../dtos/response.dto';
 
 export class AuthController {
   public async create(req: Request, res: Response) {
-    const { username, password } = req.body;
+    const { login, password } = req.body;
 
-    const user = await userService.getByUsernameAndPassword(username, password);
+    const user = await userService.getByUsernameAndPassword(login, password);
 
     if (!user) {
       return res.status(401).send({ message: 'Username or password wrong' });
