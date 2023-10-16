@@ -104,3 +104,20 @@ export async function userMiddlewareBodyCreatUser(
     });
   }
 }
+
+export async function userPasswordMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).send({
+      ok: false,
+      message: 'Username or password were not provided',
+    });
+  }
+
+  next();
+}
