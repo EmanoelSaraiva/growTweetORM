@@ -91,43 +91,6 @@ export async function retweetValidatedUser(
   }
 }
 
-export async function authMiddlewarePost(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
-  const token = req.headers.authorization;
-  const { userId } = req.body;
-
-  try {
-    const user = await repository.user.findUnique({
-      where: {
-        token: token,
-      },
-    });
-
-    const tweet = await repository.tweet.findFirst({
-      where: {
-        userId: userId,
-      },
-    });
-
-    if (user?.id != tweet?.userId) {
-      return res.status(403).send({
-        ok: false,
-        message: 'Not authorized',
-      });
-    }
-
-    next();
-  } catch (error: any) {
-    res.status(500).send({
-      ok: false,
-      message: error.toString(),
-    });
-  }
-}
-
 export async function authMiddlewarePutDelet(
   req: Request,
   res: Response,
