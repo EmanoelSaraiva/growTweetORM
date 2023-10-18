@@ -25,7 +25,7 @@ export default async function authMiddleware(
       });
     }
 
-    req.body.id = user.id;
+    req.body.userId = user.id;
 
     next();
   } catch (error: any) {

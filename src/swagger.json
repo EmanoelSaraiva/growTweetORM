@@ -21,6 +21,7 @@
         "summary": "Cadastro de usuário",
         "description": "Rota responsável por cadastrar novos usuários",
         "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -63,8 +64,8 @@
     },
     "/tweet": {
       "post": {
-        "summary": "Cadastro de usuário",
-        "description": "Rota responsável por cadastrar novos usuários",
+        "summary": "Cadastro de Tweet",
+        "description": "Rota responsável por cadastrar novos tweets",
         "tags": ["Tweet"],
         "requestBody": {
           "content": {
@@ -104,6 +105,13 @@
           }
         }
       }
+    },
+    "/tweet/": {
+      "get:": {
+        "description": "Listed all tweets",
+        "summary": "Listed all tweets",
+        "tags": ["Tweet"]
+      }
     }
   },
   "components": {
@@ -123,6 +131,13 @@
           "content": { "type": "string" },
           "type": { "type": "string" },
           "userId": { "type": "string" }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
         }
       }
     }

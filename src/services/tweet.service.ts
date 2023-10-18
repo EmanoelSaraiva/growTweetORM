@@ -77,6 +77,16 @@ class TweetService {
       message: 'Tweet deleted successfully',
     };
   }
+
+  public async getId(id: string) {
+    const idTweet = await repository.tweet.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    return idTweet;
+  }
 }
 
 export default new TweetService();

@@ -12,7 +12,7 @@ export class TweetController {
     try {
       const { content, type, userId } = req.body;
 
-      if (!content || !type || !userId) {
+      if (!content || !type) {
         return res.status(400).send({
           ok: false,
           message: 'Incorrect data',

@@ -12,7 +12,7 @@ export class RetweetController {
     try {
       const { userId, tweetId, content } = req.body;
 
-      if (!userId || !tweetId) {
+      if (!tweetId) {
         return res.status(400).send({
           ok: false,
           message: 'Incorrect data',
