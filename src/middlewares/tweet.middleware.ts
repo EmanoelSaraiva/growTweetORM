@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { repository } from '../database/prisma.database';
+import tweetService from '../services/tweet.service';
 
 export async function tweetMiddlewareParams(
   req: Request,
