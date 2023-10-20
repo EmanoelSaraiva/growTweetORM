@@ -23,6 +23,13 @@ app.use('/like', (0, like_routes_1.likeRoutes)());
 app.use('/retweet', (0, retweet_routes_1.retweetRoutes)());
 app.use('/follow', (0, follow_routes_1.followRouter)());
 app.use('/auth', (0, auth_routes_1.authRoutes)());
+app.use('/', (req, res) => {
+    res.status(200).send({
+        ok: true,
+        code: 200,
+        message: 'Api Growtwitter',
+    });
+});
 app.listen(3333, () => {
-    console.log('API rodando na porta 3333');
+    console.log('API rodando');
 });
