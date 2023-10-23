@@ -12,7 +12,7 @@ export const userRoutes = () => {
   const userController = new UserController();
 
   router.get('/', authMiddleware, userController.index);
-  router.post('/', userMiddlewareBodyCreatUser, userController.create);
+  router.post('/create', userMiddlewareBodyCreatUser, userController.create);
   router.put(
     '/:id',
     authMiddlewareUserPutDelete,

@@ -9,10 +9,10 @@ datasource db {
 
 model user {
   id       String  @id @default(uuid()) @db.Uuid
-  name     String
-  email    String  @unique
-  username String  @unique
-  password String
+  name     String  @db.VarChar(64)
+  email    String  @unique @db.VarChar(64)
+  username String  @unique @db.VarChar(64)
+  password String  @db.VarChar(64)
   token    String? @unique
   tweet    tweet[]
 
@@ -26,8 +26,8 @@ model user {
 
 model tweet {
   id      String @id @default(uuid()) @db.Uuid
-  content String
-  type    String
+  content String @db.VarChar(64)
+  type    String @db.VarChar(64)
 
   userId String @db.Uuid
   user   user   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -51,7 +51,7 @@ model like {
 
 model retweet {
   id      String  @id @default(uuid()) @db.Uuid
-  content String?
+  content String? @db.VarChar(64)
   userId  String  @db.Uuid
   tweetId String  @db.Uuid
 

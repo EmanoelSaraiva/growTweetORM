@@ -10,7 +10,7 @@ export const tweetRoutes = () => {
   const tweetController = new TweetController();
 
   router.get('/', authMiddleware, tweetController.index);
-  router.post('/', [authMiddleware], tweetController.create);
+  router.post('/create', [authMiddleware], tweetController.create);
   router.put(
     '/:id',
     [authMiddleware, authMiddlewarePutDelet, tweetMiddlewareParams],
