@@ -1,8 +1,8 @@
-# API GrowTweet
+# API GrowTwitter
 
 ## Visão Geral
 
-A API GrowTweet é uma plataforma poderosa que combina tecnologias de ponta para criar uma experiência excepcional de mídia social. Ela foi construída com as mais recentes tecnologias, incluindo **Node.js**, **Prisma**, **Bcrypt** e **PostgreSQL**, oferecendo recursos avançados de autenticação de usuário, gerenciamento de tweets, likes, retweets, seguidores e muito mais.
+A API GrowTwitter é uma plataforma poderosa que combina tecnologias de ponta para criar uma experiência excepcional de mídia social. Ela foi construída com as mais recentes tecnologias, incluindo **Node.js**, **Prisma**, **Bcrypt** e **PostgreSQL**, oferecendo recursos avançados de autenticação de usuário, gerenciamento de tweets, likes, retweets, seguidores e muito mais.
 
 ## Sumário
 
