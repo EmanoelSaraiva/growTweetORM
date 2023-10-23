@@ -2,6 +2,7 @@ import { repository } from '../database/prisma.database';
 import { ResponseDto } from '../dtos/response.dto';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { User } from '../models/user.model';
+import bcrypt from 'bcrypt';
 
 class UserService {
   public async findAll(): Promise<ResponseDto> {
@@ -28,12 +29,16 @@ class UserService {
       data.password,
     );
 
+    const saltRounds = 10;
+
+    const hashSenha = await bcrypt.hash(newUser.getPassword(), saltRounds);
+
     const createdUser = await repository.user.create({
       data: {
         name: newUser.getName(),
         email: newUser.getEmail(),
         username: newUser.getUsername(),
-        password: newUser.getPassword(),
+        password: hashSenha,
       },
     });
 
@@ -82,22 +87,18 @@ class UserService {
     const username = await repository.user.findUnique({
       where: {
         username: login,
-        password: password,
       },
     });
 
     if (username) {
-      return username;
-    } else {
-      const email = await repository.user.findUnique({
-        where: {
-          email: login,
-          password: password,
-        },
-      });
+      const match = await bcrypt.compare(password, username.password);
 
-      return email;
+      if (match) {
+        return username;
+      }
     }
+
+    return null;
   }
 
   public async getByToken(token: string) {
