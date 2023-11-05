@@ -3,7 +3,7 @@ import { v4 as tokenGen } from 'uuid';
 import userService from '../services/user.service';
 import { ResponseDto } from '../dtos/response.dto';
 
-export class AuthController {
+export default class AuthController {
   public async create(req: Request, res: Response) {
     const { login, password } = req.body;
 
@@ -31,7 +31,7 @@ export class AuthController {
   }
 
   public async delete(req: Request, res: Response) {
-    const { token } = req.headers;
+    const token = req.headers.authorization;
 
     const user = await userService.getByToken(token as string);
 
@@ -44,13 +44,13 @@ export class AuthController {
       await userService.update({ ...user, token: null });
 
       return res.status(response.code).send(response);
+    } else {
+      const response: ResponseDto = {
+        code: 404,
+        message: 'Logout not found',
+      };
+
+      return res.status(response.code).send(response);
     }
-
-    const response: ResponseDto = {
-      code: 404,
-      message: 'Logout not found',
-    };
-
-    return res.status(response.code).send(response);
   }
 }

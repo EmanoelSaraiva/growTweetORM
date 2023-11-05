@@ -8,6 +8,20 @@ export class UserController {
     return res.status(result.code).send(result);
   }
 
+  public async searchUserId(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const result = await userService.getUserId(id);
+      return res.status(result.code).send({ result });
+    } catch (error: any) {
+      res.status(500).send({
+        ok: false,
+        message: error.toString(),
+      });
+    }
+  }
+
   public async create(req: Request, res: Response) {
     try {
       const { name, email, username, password } = req.body;
