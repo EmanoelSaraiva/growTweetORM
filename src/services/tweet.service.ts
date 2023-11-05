@@ -9,6 +9,9 @@ class TweetService {
       include: {
         like: true,
       },
+      orderBy: {
+        dtCriet: 'desc',
+      },
     });
 
     return {
@@ -78,14 +81,18 @@ class TweetService {
     };
   }
 
-  public async getId(id: string) {
+  public async getId(id: string): Promise<ResponseDto> {
     const idTweet = await repository.tweet.findUnique({
       where: {
         id: id,
       },
     });
 
-    return idTweet;
+    return {
+      code: 202,
+      message: 'Tweets Listeds',
+      data: idTweet,
+    };
   }
 }
 

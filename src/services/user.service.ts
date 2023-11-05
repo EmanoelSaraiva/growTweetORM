@@ -84,9 +84,9 @@ class UserService {
   }
 
   public async getByUsernameAndPassword(login: string, password: string) {
-    const username = await repository.user.findUnique({
+    const username = await repository.user.findFirst({
       where: {
-        username: login,
+        OR: [{ username: login }, { email: login }],
       },
     });
 
@@ -97,7 +97,6 @@ class UserService {
         return username;
       }
     }
-
     return null;
   }
 
@@ -109,6 +108,20 @@ class UserService {
     });
 
     return tokenUser;
+  }
+
+  public async getUserId(id: string): Promise<ResponseDto> {
+    const idUser = await repository.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    return {
+      code: 200,
+      message: 'Usuário listado',
+      data: idUser,
+    };
   }
 }
 

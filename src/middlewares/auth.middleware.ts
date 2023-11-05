@@ -35,3 +35,26 @@ export default async function authMiddleware(
     });
   }
 }
+
+export async function authHeaders(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const token = req.headers.authorization;
+
+    if (!token) {
+      return res.status(401).send({
+        code: 401,
+        message: 'Authentication token fail',
+      });
+    }
+    next();
+  } catch (error: any) {
+    return res.status(500).send({
+      ok: false,
+      message: error.toString(),
+    });
+  }
+}

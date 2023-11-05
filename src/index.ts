@@ -23,13 +23,6 @@ app.use('/like', likeRoutes());
 app.use('/retweet', retweetRoutes());
 app.use('/follow', followRouter());
 app.use('/auth', authRoutes());
-app.use('/', (req, res) => {
-  res.status(200).send({
-    ok: true,
-    code: 200,
-    message: 'Api Growtwitter',
-  });
-});
 
 app.listen(3333, () => {
   console.log('API rodando');
